@@ -1,0 +1,27 @@
+.products {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 30%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.product {
+    text-align: left;
+    width: 20rem;
+}
+
+.product__name {
+    padding: 0.5rem;
+    background-color: aliceblue;
+}
+
+.product__price {
+    padding: 0.5rem;
+    background-color: aquamarine;
+}
+
+.product__description {
+    background-color: beige;
+    padding: 1rem;
+}
