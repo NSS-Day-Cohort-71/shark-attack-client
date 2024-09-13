@@ -9,6 +9,13 @@
 .product {
     text-align: left;
     width: 20rem;
+    border-radius: 4rem;
+    box-shadow: 2rem 2rem 4rem rgba(0, 0, 0, 0.7);
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.99);
 }
 
 .product__name {
