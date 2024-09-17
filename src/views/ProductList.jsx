@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
 import "./ProductList.css"
+import { useNavigate } from "react-router-dom"
 
 export const ProductList = () => {
     const [products, setProducts] = useState([])
+    const navigate = useNavigate()
 
     const getProducts = async () => {
         const response = await fetch("http://localhost:8000/products", {
@@ -26,6 +28,13 @@ export const ProductList = () => {
 
     return <>
         <h1>Products</h1>
+
+        <button onClick={() => {
+            navigate("/products/new")
+        }}>Add Product
+        </button>
+
+
         <section className="products">
             {
                 products.map(product => {
@@ -43,7 +52,9 @@ export const ProductList = () => {
                         <div className="product__price">${product.price.toLocaleString({
                             style: "currency",
                             currency: "USD"
-                        })}</div>
+                        })}
+                            <button>Add to cart</button>
+                        </div>
                     </div>
                 })
             }
