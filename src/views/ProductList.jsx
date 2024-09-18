@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import "./ProductList.css"
 import { useNavigate } from "react-router-dom"
+import "./ProductList.css"
 
 export const ProductList = () => {
     const [products, setProducts] = useState([])
@@ -20,6 +20,19 @@ export const ProductList = () => {
 
         const data = await response.json()
         setProducts(data)
+    }
+
+    const addtoCart = async (productId) => {
+        const response = await fetch(`http://localhost:8000/cart`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${JSON.parse(localStorage.getItem("shark_token")).token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ product_id: productId }),
+        })
+
+        navigate("/cart")
     }
 
     useEffect(() => {
@@ -53,7 +66,7 @@ export const ProductList = () => {
                             style: "currency",
                             currency: "USD"
                         })}
-                            <button>Add to cart</button>
+                            <button onClick={() => addtoCart(product.id)}>Add to cart</button>
                         </div>
                     </div>
                 })

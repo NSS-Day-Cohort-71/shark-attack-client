@@ -6,6 +6,7 @@ import { Register } from '../views/Register.jsx'
 import SharkAttack from '../SharkAttack.jsx'
 import { ProductList } from '../views/ProductList.jsx'
 import { ProductForm } from '../views/ProductForm.jsx'
+import { ShoppingCart } from '../views/ShoppingCart.jsx'
 
 
 export const ApplicationViews = () => {
@@ -16,6 +17,7 @@ export const ApplicationViews = () => {
 
             <Route element={<Authorized />}>
                 <Route path="/" element={ <SharkAttack /> } />
+                <Route path="/cart" element={ <ShoppingCart/> } />
                 <Route path="/products" element={ <ProductList /> } />
                 <Route path="/products/new" element={ <ProductForm/> } />
             </Route>
