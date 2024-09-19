@@ -16,7 +16,7 @@ export const ApplicationViews = () => {
             <Route path="/register" element={<Register />} />
 
             <Route element={<Authorized />}>
-                <Route path="/" element={ <SharkAttack /> } />
+                <Route path="/" element={ <ProductList /> } />
                 <Route path="/cart" element={ <ShoppingCart/> } />
                 <Route path="/products" element={ <ProductList /> } />
                 <Route path="/products/new" element={ <ProductForm/> } />

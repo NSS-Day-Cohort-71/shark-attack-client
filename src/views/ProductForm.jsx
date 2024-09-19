@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react"
+import { Button, DropdownMenu, Heading, Select, TextArea, TextField } from "@radix-ui/themes"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import "./ProductForm.css"
 
 export const ProductForm = () => {
     const [name, setName] = useState('')
@@ -10,6 +12,11 @@ export const ProductForm = () => {
     const [allCategories, setAllCategories] = useState([])
 
     const navigate = useNavigate()
+
+    const selectedCategory = useMemo(() =>
+        allCategories.find(cat => cat.id === category),
+        [category, allCategories]
+      )
 
     const getCategories = () => {
         fetch(`http://localhost:8000/categories`, {
@@ -24,8 +31,9 @@ export const ProductForm = () => {
     useEffect(getCategories, [])
 
 
-    return <>
-        <form className="product">
+    return <section className="form-container">
+        <Heading>Create A Product To Sell</Heading>
+        <form className="product-form">
             <fieldset className="mb-4">
                 <label htmlFor="name"> Product name </label>
                 <input type="text" id="name"
@@ -35,12 +43,8 @@ export const ProductForm = () => {
                     required autoFocus />
             </fieldset>
             <fieldset className="mb-4">
-                <label htmlFor="description"> First name </label>
-                <textarea type="text" id="description"
-                    value={description}
-                    onChange={evt => setDescription(evt.target.value)}
-                    className="form-control"
-                    required ></textarea>
+                <label htmlFor="description"> Description </label>
+                <TextArea value={description} onChange={evt => setDescription(evt.target.value)} />
             </fieldset>
             <fieldset className="mb-4">
                 <label htmlFor="price"> Price </label>
@@ -48,28 +52,34 @@ export const ProductForm = () => {
                     value={price}
                     onChange={evt => setPrice(evt.target.value)}
                     className="form-control"
-                    required  />
+                    required />
             </fieldset>
             <fieldset className="mb-4">
                 <label htmlFor="stock"> Number in stock </label>
-                <input type="number" id="stock"
-                    value={stock}
-                    onChange={evt => setStock(evt.target.value)}
-                    className="form-control"
-                    required  />
+
+                <TextField.Root value={stock} onChange={evt => setStock(parseInt(evt.target.value))}> </TextField.Root>
             </fieldset>
             <fieldset className="mb-4">
-                <label htmlFor="firstName"> First name </label>
-                <select onChange={(evt) => {
-                    setCategory(parseInt(evt.target.value))
+                <label htmlFor="firstName"> Product Category </label>
+
+
+                <Select.Root value={category} onValueChange={(value) => {
+                    setCategory(parseInt(value))
                 }}>
-                    <option value="0">Select a category...</option>
-                    {
-                        allCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
-                    }
-                </select>
+                    <Select.Trigger>
+                        {selectedCategory ? selectedCategory.name : 'Choose a category'}
+                    </Select.Trigger>
+                    <Select.Content>
+                        <Select.Group>
+                            {
+                                allCategories.map(cat => <Select.Item key={cat.id} value={cat.id}>{cat.name}</Select.Item>)
+                            }
+
+                        </Select.Group>
+                    </Select.Content>
+                </Select.Root>
             </fieldset>
-            <button className="btn btn-primary" onClick={(evt) => {
+            <Button color="indigo" className="btn btn-primary" onClick={(evt) => {
                 evt.preventDefault()
 
                 fetch("http://localhost:8000/products", {
@@ -86,16 +96,16 @@ export const ProductForm = () => {
                         category_id: category
                     })
                 })
-                .then(() => {
-                    setName('')
-                    setDescription('')
-                    setPrice('')
-                    setStock(0)
-                    setCategory(0)
+                    .then(() => {
+                        setName('')
+                        setDescription('')
+                        setPrice('')
+                        setStock(0)
+                        setCategory(0)
 
-                    navigate("/products")
-                })
-            }}>Submit</button>
+                        navigate("/products")
+                    })
+            }}>Submit</Button>
         </form>
-    </>
+    </section>
 }

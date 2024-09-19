@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./ProductList.css"
+import { Badge, Box, Button, Card, Flex, Text } from "@radix-ui/themes"
 
 export const ProductList = () => {
     const [products, setProducts] = useState([])
@@ -42,35 +43,42 @@ export const ProductList = () => {
     return <>
         <h1>Products</h1>
 
-        <button onClick={() => {
+        <Button color="mint" onClick={() => {
             navigate("/products/new")
         }}>Add Product
-        </button>
+        </Button>
 
 
         <section className="products">
+            <Flex gap="3" justify="center" wrap="wrap">
             {
                 products.map(product => {
-                    return <div style={{
-                        border: "0.6rem solid goldenrod",
-                        backgroundColor: "fuchsia",
-                        margin: "5px",
-                        padding: "5px"
-                    }}
-                        key={product.id}
-                        className="product">
-
-                        <div className="product__name">{product.name}</div>
-                        <div className="product__description">{product.description}</div>
-                        <div className="product__price">${product.price.toLocaleString({
-                            style: "currency",
-                            currency: "USD"
-                        })}
-                            <button onClick={() => addtoCart(product.id)}>Add to cart</button>
-                        </div>
-                    </div>
+                    return <Box maxWidth="240px">
+                        <Card>
+                            <Flex gap="3" justify="center" wrap="wrap" align="center">
+                                <Box>
+                                    <Text as="div" size="2" weight="bold">
+                                        {product.name} <Badge color="blue">{product.category.name}</Badge>
+                                    </Text>
+                                    <Text as="div" size="2" color="gray">
+                                        {product.description}
+                                    </Text>
+                                    <Text as="div" size="2" color="green">
+                                        ${product.price.toLocaleString({
+                                            style: "currency",
+                                            currency: "USD"
+                                        })}
+                                    </Text>
+                                    <Text as="div" size="2" color="gray">
+                                        <Button color="gold" onClick={() => addtoCart(product.id)}>Add to cart</Button>
+                                    </Text>
+                                </Box>
+                            </Flex>
+                        </Card>
+                    </Box>
                 })
             }
+            </Flex>
         </section>
     </>
 }
